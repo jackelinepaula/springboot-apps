@@ -1,5 +1,6 @@
 package com.fatec.sigvs.servico;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,18 +9,38 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fatec.sigvs.model.Catalogo;
 import com.fatec.sigvs.model.IProdutoRepository;
+import com.fatec.sigvs.model.IImagemRepository;
+import com.fatec.sigvs.model.Imagem;
 import com.fatec.sigvs.model.Produto;
 
 @Service
-public class ProdutoServico implements IProdutoServico{
+public class ProdutoServico implements IProdutoServico {
 	Logger logger = LogManager.getLogger(this.getClass());
 	@Autowired
-	IProdutoRepository repository;
+	IProdutoRepository repositoryProduto;
+
+	@Autowired
+	IImagemRepository repositoryImagem;
 
 	@Override
-	public List<Produto> consultaCatalogo() {
-		return repository.findAll();
+	public List<Catalogo> consultaCatalogo() {
+		Catalogo c = null;
+		List<Catalogo> lista = new ArrayList<>();
+		List<Produto> listaProduto = repositoryProduto.findAll();
+		List<Imagem> listaImagem = repositoryImagem.findAll();
+
+		for (Produto p : listaProduto) {
+			for (Imagem i : listaImagem) {
+				if (p.getId().equals(i.getId())) {
+					c = new Catalogo(p.getId(), p.getDescricao(), p.getCategoria(),
+							p.getCusto(), p.getQuantidadeNoEstoque(), i.getArquivo());
+					lista.add(c);
+				}
+			}
+		}
+		return lista;
 	}
 
 	@Override
@@ -49,6 +70,6 @@ public class ProdutoServico implements IProdutoServico{
 	@Override
 	public void excluir(Long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

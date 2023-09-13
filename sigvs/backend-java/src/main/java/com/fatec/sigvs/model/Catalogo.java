@@ -18,6 +18,7 @@ public class Catalogo {
         this.imagem = imagem;
     }
 
+    public Catalogo(){}
 
     public Long getId() {
         return this.id;
