@@ -57,11 +57,7 @@ public class ImagemServico implements IImagemServico {
    public List<Imagem> getAll() {
       return imagemRepository.findAll();
    }
-   /**
-    * Download de imagens - se o nome do arquivo de imagem existir no db retorna
-    * imagem senao retorna vazio parametro - nome do arquivo de imagem a ser
-    * baixado.
-    */
+
    @Override
    public byte[] getImagem(String nomeArquivo) {
       Optional<Imagem> dbImagem = imagemRepository.findByNome(nomeArquivo);

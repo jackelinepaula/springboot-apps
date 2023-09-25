@@ -51,8 +51,8 @@ public class ProdutoServico implements IProdutoServico {
 
 	@Override
 	public Optional<Produto> cadastrar(Produto produto) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("----------> Servico 'Cadastrar produto' iniciado <---------");
+		return Optional.ofNullable(repositoryProduto.save(produto));
 	}
 
 	@Override
